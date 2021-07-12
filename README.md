@@ -39,3 +39,6 @@ https://github.com/Aretle/MAC-Hack
 
 Figma (The link should just work but it may expire):
 https://www.figma.com/team_invite/redeem/1LNS0ai4FEfhpAu4eUCeNB
+
+Features list (google doc) (link is accessible to anyone so don't share openly? idk)
+https://docs.google.com/document/d/10d8TU5SMryy52zozrqrVnWFd6fGjoiLAi54_cJjuIEg/edit?usp=sharing
