@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block body%}
+<style>
+      .carousel-item{
+        height: 100vh;
+        background: #777;
+
+      }
+    </style>
+
+<p>Carer View - {{fname}} {{lname}} at {{start_of_shift}}</p>
+
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <h1 class="text-center my-4">Biography</h1>
+          <div class="container">
+          <div class="row align-items-center">
+            <div class="col-md-6 col-sm-12">
+              <img src="/static/images/woman_1.jpg" class="img-fluid" alt="client" style="border-radius:100%; display: block; margin: auto;">
+            </div>
+            <div class="col-md-6 col-sm-12">
+              <div class="card text-left mb-3" style="max-width: 540px; border-radius:40px;">
+                <div class="card-body">
+                  <h5 class="card-title">Description</h5>
+                  <p class="card-text">A little bit of information about the client. What is their condition. What is their personality. How do the caregivers feel about her.</p>
+                </div>
+              </div>
+              <div class="card text-left mb-3" style="max-width: 540px; border-radius:40px;">
+                <div class="card-body">
+                  <h5 class="card-title">Hobbies and Interests</h5>
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item">Massive AFL Geelong supporter</li>
+                      <li class="list-group-item">Supports local Bendigo Spirits women's basketball team</li>
+                      <li class="list-group-item">Enjoys playing on her phone</li>
+                    </ul>
+                </div>
+              </div>
+              <div class="card text-left mb-3" style="max-width: 540px; border-radius:40px;">
+                <div class="card-body">
+                  <h5 class="card-title">Goals</h5>
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item">As much independence as possible.</li>
+                      <li class="list-group-item">Improving her fitness and losing weight.</li>
+                      <li class="list-group-item">Rehabilitating her knees post surgery.</li>
+                    </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="carousel-item">
+          <h1 class="text-center my-4">Special Needs</h1>
+        </div>
+        <div class="carousel-item">
+          <h1 class="text-center my-4">Daily Tasks</h1>
+        </div>
+        <div class="carousel-item">
+          <h1 class="text-center my-4">Notes</h1>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+
+{% endblock %}
