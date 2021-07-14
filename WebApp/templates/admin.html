@@ -1,0 +1,370 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Admin</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">Admin</h1>
+    <!-- display tables -->
+    <h4 id="client" style="text-align: center">Client Table</h4>
+    <p>Entries: {{ clients|length }}</p>
+    <table>
+        <tr>            
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Address</th>
+            <th>Phone Number</th>
+            <th>Info</th>
+        </tr>
+        {% for client in clients %}
+            <tr>
+                <td>
+                    {{ client.id }}
+                </td>
+                <td>
+                    {{ client.fname }}
+                </td>
+                <td>
+                    {{ client.lname }}
+                </td>
+                <td>
+                    {{ client.address }}
+                </td>
+                <td>
+                    {{ client.phone }}
+                </td>
+                <td>
+                    {{ client.info }}
+                </td>
+                <td>
+                    <a href="/admin/delete-client/{{ client.id }}">Delete</a>
+                    <br>
+                    <a href="/admin/update-client/{{ client.id }}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}   
+        <tr>
+            <form action="/admin/add-client" method="POST">
+                <td><!-- id --></td>
+                <td>
+                    <input type="text" name="fname" id="fname">
+                </td>
+                <td>
+                    <input type="text" name="lname" id="lname">
+                </td>
+                <td>
+                    <input type="text" name="address" id="address">
+                </td>
+                <td>
+                    <input type="text" name="phone" id="phone">
+                </td>
+                <td>
+                    <input type="text" name="info" id="info">
+                </td>
+                <td>
+                    <input type="submit" value="Add Client">
+                </td>
+            </form>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h4 id="roster" style="text-align: center">Roster Table</h4>
+    <p>Entries: {{ rosters|length }}</p>
+    <table>
+        <tr>            
+            <th>ID</th>
+            <th>Carer ID</th>
+            <th>Client ID</th>
+            <th>Start</th>
+            <th>Finish</th>            
+        </tr>
+        {% for roster in rosters %}
+            <tr>
+                <td>
+                    {{ roster.id }}
+                </td>
+                <td>
+                    {{ roster.carer_id }}
+                </td>
+                <td>
+                    {{ roster.client_id }}
+                </td>
+                <td>
+                    {{ roster.start }}
+                </td>
+                <td>
+                    {{ roster.finish }}
+                </td>                
+                <td>
+                    <a href="/admin/delete-roster/{{ roster.id }}">Delete</a>
+                    <br>
+                    <a href="/admin/update-roster/{{ roster.id }}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}   
+        <tr>
+            <form action="/admin/add-roster" method="POST">
+                <td><!-- id --></td>
+                <td>
+                    <input type="text" name="carer_id" id="carer_id">
+                </td>
+                <td>
+                    <input type="text" name="client_id" id="client_id">
+                </td>
+                <td>
+                    <input type="text" name="start" id="start">
+                </td>
+                <td>
+                    <input type="text" name="finish" id="finish">
+                </td>                
+                <td>
+                    <input type="submit" value="Add Roster">
+                </td>
+            </form>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h4 id="task" style="text-align: center">Task Table</h4>
+    <p>Entries: {{ tasks|length }}</p>
+    <table>
+        <tr>            
+            <th>ID</th>
+            <th>Roster ID</th>
+            <th>Description</th>
+            <th>Essential</th>
+            <th>Completed</th>            
+        </tr>
+        {% for task in tasks %}
+            <tr>
+                <td>
+                    {{ task.id }}
+                </td>
+                <td>
+                    {{ task.roster_id }}
+                </td>
+                <td>
+                    {{ task.description }}
+                </td>
+                <td>
+                    {{ task.essential }}
+                </td>
+                <td>
+                    {{ task.completed }}
+                </td>                
+                <td>
+                    <a href="/admin/delete-task/{{ task.id }}">Delete</a>
+                    <br>
+                    <a href="/admin/update-task/{{ task.id }}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}   
+        <tr>
+            <form action="/admin/add-task" method="POST">
+                <td><!-- id --></td>
+                <td>
+                    <input type="text" name="roster_id" id="roster_id">
+                </td>
+                <td>
+                    <input type="text" name="description" id="description">
+                </td>
+                <td>
+                    <input type="text" name="essential" id="essential">
+                </td>
+                <td>
+                    <input type="text" name="completed" id="completed">
+                </td>                
+                <td>
+                    <input type="submit" value="Add Task">
+                </td>
+            </form>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h4 id="appointment" style="text-align: center">Appointment Table</h4>
+    <p>Entries: {{ appointments|length }}</p>
+    <table>
+        <tr>            
+            <th>ID</th>
+            <th>Client ID</th>
+            <th>When</th>
+            <th>Who</th>
+            <th>Description</th>            
+        </tr>
+        {% for appointment in appointments %}
+            <tr>
+                <td>
+                    {{ appointment.id }}
+                </td>
+                <td>
+                    {{ appointment.client_id }}
+                </td>
+                <td>
+                    {{ appointment.when }}
+                </td>
+                <td>
+                    {{ appointment.who }}
+                </td>
+                <td>
+                    {{ appointment.description }}
+                </td>                
+                <td>
+                    <a href="/admin/delete-appointment/{{ appointment.id }}">Delete</a>
+                    <br>
+                    <a href="/admin/update-appointment/{{ appointment.id }}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}   
+        <tr>
+            <form action="/admin/add-appointment" method="POST">
+                <td><!-- id --></td>
+                <td>
+                    <input type="text" name="client_id" id="client_id">
+                </td>
+                <td>
+                    <input type="text" name="when" id="when">
+                </td>
+                <td>
+                    <input type="text" name="who" id="who">
+                </td>
+                <td>
+                    <input type="text" name="description" id="description">
+                </td>
+                <td>
+                    <input type="submit" value="Add Appointment">
+                </td>
+            </form>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h4 id="contact" style="text-align: center">Contact Table</h4>
+    <p>Entries: {{ contacts|length }}</p>
+    <table>
+        <tr>            
+            <th>ID</th>
+            <th>Client ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Primary</th>            
+        </tr>
+        {% for contact in contacts %}
+            <tr>
+                <td>
+                    {{ contact.id }}
+                </td>
+                <td>
+                    {{ contact.client_id }}
+                </td>
+                <td>
+                    {{ contact.name }}
+                </td>
+                <td>
+                    {{ contact.phone }}
+                </td>
+                <td>
+                    {{ contact.primary }}
+                </td>                
+                <td>
+                    <a href="/admin/delete-contact/{{ contact.id }}">Delete</a>
+                    <br>
+                    <a href="/admin/update-contact/{{ contact.id }}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}   
+        <tr>
+            <form action="/admin/add-contact" method="POST">
+                <td><!-- id --></td>
+                <td>
+                    <input type="text" name="client_id" id="client_id">
+                </td>
+                <td>
+                    <input type="text" name="name" id="name">
+                </td>
+                <td>
+                    <input type="text" name="phone" id="phone">
+                </td>
+                <td>
+                    <input type="text" name="primary" id="primary">
+                </td>
+                <td>
+                    <input type="submit" value="Add Contact">
+                </td>
+            </form>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h4 id="communication" style="text-align: center">Communication Table</h4>
+    <p>Entries: {{ commincations|length }}</p>
+    <table>
+        <tr>            
+            <th>ID</th>
+            <th>Client ID</th>
+            <th>Carer ID</th>
+            <th>When</th>
+            <th>Message</th>            
+        </tr>
+        {% for communication in communications %}
+            <tr>
+                <td>
+                    {{ communication.id }}
+                </td>
+                <td>
+                    {{ communication.client_id }}
+                </td>
+                <td>
+                    {{ communication.carer_id }}
+                </td>
+                <td>
+                    {{ communication.when }}
+                </td>
+                <td>
+                    {{ communication.message }}
+                </td>                
+                <td>
+                    <a href="/admin/delete-communication/{{ communication.id }}">Delete</a>
+                    <br>
+                    <a href="/admin/update-communication/{{ communication.id }}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}   
+        <tr>
+            <form action="/admin/add-communication" method="POST">
+                <td><!-- id --></td>
+                <td>
+                    <input type="text" name="client_id" id="client_id">
+                </td>
+                <td>
+                    <input type="text" name="carer_id" id="carer_id">
+                </td>
+                <td>
+                    <input type="text" name="when" id="when">
+                </td>
+                <td>
+                    <input type="text" name="message" id="message">
+                </td>
+                <td>
+                    <input type="submit" value="Add Communication">
+                </td>
+            </form>
+        </tr>
+    </table>
+
+    <hr>
+
+    <p align=center>
+        <a href="/admin/create_tables">Create tables</a>
+    </p>
+</div>
+{% endblock %}
