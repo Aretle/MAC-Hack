@@ -12,7 +12,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'  # set up database; 
 db = SQLAlchemy(app)  # pass in the app; init the database
 
 
-# set up data model (so we grab data and make objects?)
+# set up data model 
 class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fname = db.Column(db.String(30), nullable=False)
@@ -81,6 +81,7 @@ class Communication(db.Model):
     def __repr__(self):  
         return "<Communication {} created>".format(self.id)
 
+
 # set up routing
 # root (client view)
 @app.route('/') # url string here
@@ -88,11 +89,10 @@ def index():  # function of that url
     return render_template('index.html')
 
 # pages for carers views
-@app.route('/carer-view/<name>-<start_of_shift>')
-def client_view(name, start_of_shift):
-    # TODO: make HTML page for it(them)
+@app.route('/carer-view/<fname>-<lname>-<start_of_shift>')
+def client_view(fname, lname, start_of_shift):
     # TODO a function to convert time formats from url input
-    return f"Carer view for {name} at {start_of_shift}"
+    return f"Carer view for {fname} {lname} at {start_of_shift}"  # TODO: make HTML page for it(them)
 
 # page for notes/diary
 @app.route('/notes')
@@ -221,6 +221,7 @@ def add_communication():
     except Exception as exception:
         return 'There was an issue adding the communication.<br>' + str(exception)
 
+# delete
 @app.route('/admin/delete-<table>/<int:id>')
 def delete(table, id):
     if table == 'client':    
@@ -255,8 +256,9 @@ def create_tables():
     db.create_all()
     return redirect('/admin')
 
+
 # run the thing
 if __name__ == "__main__":
     db.create_all()
     app.run(debug=True)  # enable debug mode
-# go to localhost:5000 and you can see the app!
+# run "python app.py" in terminal then go to localhost:5000 and you can see the app!
