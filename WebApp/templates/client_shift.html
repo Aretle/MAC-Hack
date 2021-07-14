@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body%}
+
+<p>(for debugging) Carer View | Current shift - {{fname}} {{lname}} at {{start_of_shift}}</p>
+
+
+
+(todo: other columns cards)
+
+<h3>enter new comms log (this form is for testing)</h3>
+<form method="post">  
+    <label for="carer_name">Carer Name</label>
+    <input type="text" id="carer_name" name="carer_name" disabled value="{{fname}} {{lname}}">
+    <label for="shift">Shift (Start Time)</label>
+    <input type="text" id="shift" name="shift" disabled value="{{start_of_shift}}">
+    <!-- 
+    <label for="datetime">Entry Date & Time</label>
+    <input type="datetime-local" id="datetime" name="datetime" disabled value={{current_datetime}}>
+    -->
+    <label for="note_content">Note</label>
+    <input type="text" id="note_content" name="note_content">
+    <label for="is_important">Is it very important?</label>
+    <input type="checkbox" id="is_important" name="is_important" value="1">
+
+    <input type="submit">
+</form>
+
+{% endblock %}

@@ -88,12 +88,16 @@ class Communication(db.Model):
 def index():  # function of that url
     return render_template('index.html')
 
-# pages for carers views
-@app.route('/carer-view/<fname>-<lname>-<start_of_shift>')
+# page for client brief page (after log in)
+@app.route('/client-brief/<fname>-<lname>-<start_of_shift>')
 def client_view(fname, lname, start_of_shift):
     # TODO a function to convert time formats from url input
-    # return f"Carer view for {fname} {lname} at {start_of_shift}"  # TODO: make HTML page for it(them)
-    return render_template('shift.html', fname=fname, lname=lname, start_of_shift=start_of_shift)
+    return render_template('client_brief.html', fname=fname, lname=lname, start_of_shift=start_of_shift)
+
+# page for shift info (after shift start)
+@app.route('/shift-view/<fname>-<lname>-<start_of_shift>', methods=['GET', 'POST'])
+def shift_view(fname, lname, start_of_shift):
+    return f"Shift view for {fname} {lname} at {start_of_shift}"  # TODO: make HTML page for it(them)
 
 # page for notes/diary
 @app.route('/notes')
