@@ -92,7 +92,8 @@ def index():  # function of that url
 @app.route('/carer-view/<fname>-<lname>-<start_of_shift>')
 def client_view(fname, lname, start_of_shift):
     # TODO a function to convert time formats from url input
-    return f"Carer view for {fname} {lname} at {start_of_shift}"  # TODO: make HTML page for it(them)
+    # return f"Carer view for {fname} {lname} at {start_of_shift}"  # TODO: make HTML page for it(them)
+    return render_template('carer.html', fname=fname, lname=lname, start_of_shift=start_of_shift)
 
 # page for notes/diary
 @app.route('/notes')

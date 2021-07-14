@@ -1,46 +1,6 @@
 {% extends 'base.html' %}
 
 {% block body%}
-<p>Carer View</p>
-<div>
-    <h2>Tasks</h2>
-    <h3>Essential</h3>
-    <table>
-        <tr>
-            <th>Task</th>
-            <th>Completed</th>            
-        </tr>
-        {% for task in tasks %}
-            {% if task.essential %}
-                <tr>
-                    <td>
-                        {{ task.description }}
-                    </td>
-                    <td>
-                        {{ task.completed }}
-                    </td>            
-                </tr>
-            {% endif %}
-        {% endfor %}        
-    </table>
-    <h3>Non-Essential</h3>
-    <table>
-        <tr>
-            <th>Task</th>
-            <th>Completed</th>            
-        </tr>
-        {% for task in tasks %}
-            {% if !task.essential %}
-                <tr>
-                    <td>
-                        {{ task.description }}
-                    </td>
-                    <td>
-                        {{ task.completed }}
-                    </td>            
-                </tr>
-            {% endif %}
-        {% endfor %}        
-    </table>
-</div>
+<p>Carer View - {{fname}} {{lname}} at {{start_of_shift}}</p>
+
 {% endblock %}
