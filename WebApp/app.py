@@ -17,6 +17,7 @@ class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fname = db.Column(db.String(30), nullable=False)
     lname = db.Column(db.String(30), nullable=False)
+    age = db.Column(db.Integer(3), nullable=False)  # should we have a age?
     address = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(10), nullable=True)  # some client might not speak or speak the language so not always useful
     # some other properties?
@@ -25,6 +26,26 @@ class Client(db.Model):
     # this runs every time a row is created - not using now, for reference
     def __repr__(self):  
         return "<Client {} created>".format(self.id)
+
+class ClientInterest(db.Model):
+    client_id = db.Column(db.Integer, primary_key=True) 
+    interest_num = db.Column(db.Integer, primary_key=True)  # is this how to do compound pk in Flask??
+    interest_text = db.Column(db.String(100), nullable=False)
+
+class ClientGoal(db.Model):
+    client_id = db.Column(db.Integer, primary_key=True)
+    goal_num = db.Column(db.Integer, primary_key=True)
+    goal_text = db.Column(db.String(100), nullable=False)
+
+# the "lookup table" for all needs
+class SpecialNeeds(db.Model):
+    sn_id = db.Column(db.Integer, primary_key=True)
+    sn_name = db.Column(db.String(30), nullable=False)
+
+# linking table for needs
+class ClientSpecialNeeds(db.Model):
+    client_id = db.Column(db.Integer, primary_key=True)
+    sn_id = db.Column(db.Integer, primary_key=True)
 
 class Roster(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -97,7 +118,12 @@ def client_view(fname, lname, start_of_shift):
 # page for shift info (after shift start)
 @app.route('/shift-view/<fname>-<lname>-<start_of_shift>', methods=['GET', 'POST'])
 def shift_view(fname, lname, start_of_shift):
-    return f"Shift view for {fname} {lname} at {start_of_shift}"  # TODO: make HTML page for it(them)
+    # get current time
+    current_time = datetime.now().strftime("%H:%M:%S")
+    current_datetime = datetime.today().strftime(("%d-%m-%Y")) + current_time
+    # return f"Shift view for {fname} {lname} at {start_of_shift}"  # TODO: make HTML page for it(them)
+    return render_template('client_shift.html', fname=fname, lname=lname, 
+            start_of_shift=start_of_shift, current_datetime = current_datetime)
 
 # page for notes/diary
 @app.route('/notes')
