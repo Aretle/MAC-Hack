@@ -17,7 +17,7 @@ class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fname = db.Column(db.String(30), nullable=False)
     lname = db.Column(db.String(30), nullable=False)
-    age = db.Column(db.Integer(3), nullable=False)  # should we have a age?
+    dob = db.Column(db.DateTime, nullable=False)  # should we have a age, yeah, maybe save as date of birth
     address = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(10), nullable=True)  # some client might not speak or speak the language so not always useful
     # some other properties?
@@ -155,10 +155,11 @@ def add_client():
     fname = request.form['fname']
     lname = request.form['lname']
     address = request.form['address']
+    dob = str_to_date(request.form['dob'])
     phone = request.form['phone']
     info = request.form['info']
     
-    client = Client(fname=fname, lname=lname, address=address, phone=phone, info=info)
+    client = Client(fname=fname, lname=lname, dob=dob, address=address, phone=phone, info=info)
 
     try:
         db.session.add(client)
@@ -280,6 +281,9 @@ def str_to_bool(string):
 
 def str_to_date_time(string):
     return datetime.strptime(string, "%d/%m/%Y %H:%M")
+
+def str_to_date(string):
+    return datetime.strptime(string, "%d/%m/%Y")
 
 # create tables
 @app.route('/admin/create_tables')
