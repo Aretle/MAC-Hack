@@ -92,7 +92,9 @@ class Contact(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     client_id = db.Column(db.Integer, nullable=False)
     name = db.Column(db.String(100), nullable=False)
+    relation = db.Column(db.String(50), nullable=False)
     phone = db.Column(db.String(10), nullable=False)
+    address = db.Column(db.String(100), nullable=False)
     primary = db.Column(db.Boolean, nullable=False)    
 
     def __repr__(self):  
@@ -296,10 +298,12 @@ def add(table):
     elif table == 'contact':
         client_id = request.form['client_id']
         name = request.form['name']
+        relation = request.form['relation']
         phone = request.form['phone']
+        address = request.form['address']
         primary = str_to_bool(request.form['primary'])    
     
-        entity = Contact(client_id=client_id, name=name, phone=phone, primary=primary)
+        entity = Contact(client_id=client_id, name=name, relation=relation, phone=phone, address=address, primary=primary)
 
     elif table == 'communication':
         client_id = request.form['client_id']
@@ -362,8 +366,16 @@ def create_tables():
 
 # create demo data
 @app.route('/admin/create_demo_data')
-def create_demo_data():        
-    db.session.add(Client(id=101, fname='Celia', lname='Valentine', dob=datetime(1960,1,1), address='1 The Street, Melbourne 3000', info='A little bit of information about the client. What is their condition. What is their personality. How do the caregivers feel about her.'))
+def create_demo_data():
+    celia_id = 101 
+    #db.session.add(Client(id=, fname='', lname='', dob=datetime(, , ), address='', info=''))
+    #db.session.add(Contact(id=, client_id=, name='', relation='', phone='', address='', primary=))
+
+    db.session.add(Client(id=celia_id, fname='Celia', lname='Valentine', dob=datetime(1960, 1, 1), address='1 The Street, Melbourne 3000', info='A little bit of information about the client. What is their condition. What is their personality. How do the caregivers feel about her.'))
+    db.session.add(Contact(client_id=celia_id, name='Sarah Wilkinson', relation='Parent/Guardian', phone='0428236222', address='Unit 3/20 Aretle Road, Carlton North, 3054', primary=True))
+    db.session.add(Contact(client_id=celia_id, name='Aldo Wilkinson', relation='Parent/Guardian', phone='0401872000', address='Unit 3/20 Aretle Road, Carlton North, 3054', primary=True))
+    db.session.add(Contact(client_id=celia_id, name='Melissa Grover', relation='Sibling', phone='0428213281', address='123 Fake Street, Springfield, 9999', primary=False))
+
     db.session.commit()
     return redirect('/admin')
 
