@@ -4,7 +4,7 @@ from flask import request
 from flask import redirect
 from flask_sqlalchemy import SQLAlchemy
 
-from datetime import datetime
+from datetime import datetime, timedelta, date, time
 
 
 app = Flask(__name__)  # referencing this file
@@ -17,7 +17,7 @@ class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fname = db.Column(db.String(30), nullable=False)
     lname = db.Column(db.String(30), nullable=False)
-    dob = db.Column(db.DateTime, nullable=False)  # should we have a age, yeah, maybe save as date of birth
+    dob = db.Column(db.DateTime, nullable=False) 
     address = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(10), nullable=True)  # some client might not speak or speak the language so not always useful
     # some other properties?
@@ -47,6 +47,12 @@ class ClientSpecialNeed(db.Model):
     client_id = db.Column(db.Integer, primary_key=True)
     sn_id = db.Column(db.Integer, primary_key=True)
 
+class Carer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    carer_fname = db.Column(db.String(30), nullable=False)
+    carer_lname = db.Column(db.String(30),nullable=False)
+    phone = db.Column(db.String(10), nullable=False)
+
 class Roster(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     carer_id = db.Column(db.Integer, nullable=False)
@@ -54,7 +60,6 @@ class Roster(db.Model):
     start = db.Column(db.DateTime, nullable=False)
     finish = db.Column(db.DateTime, nullable=False)    
 
-    # this runs every time a row is created - not using now, for reference
     def __repr__(self):  
         return "<Roster {} created>".format(self.id)
 
@@ -65,7 +70,6 @@ class Task(db.Model):
     essential = db.Column(db.Boolean, nullable=False)
     completed = db.Column(db.Boolean, nullable=False)
 
-    # this runs every time a row is created - not using now, for reference
     def __repr__(self):  
         return "<Task {} created>".format(self.id)
 
@@ -76,7 +80,6 @@ class Contact(db.Model):
     phone = db.Column(db.String(20), nullable=False)
     primary = db.Column(db.Boolean, nullable=False)    
 
-    # this runs every time a row is created - not using now, for reference
     def __repr__(self):  
         return "<Contact {} created>".format(self.id)
 
@@ -87,7 +90,6 @@ class Appointment(db.Model):
     who = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(200), nullable=False)    
 
-    # this runs every time a row is created - not using now, for reference
     def __repr__(self):  
         return "<Appointment {} created>".format(self.id)
 
@@ -98,7 +100,6 @@ class Communication(db.Model):
     when = db.Column(db.DateTime, nullable=False)
     message = db.Column(db.String(500), nullable=False)
 
-    # this runs every time a row is created - not using now, for reference
     def __repr__(self):  
         return "<Communication {} created>".format(self.id)
 
@@ -118,18 +119,57 @@ def client_view(fname, lname, start_of_shift):
 # page for shift info (after shift start)
 @app.route('/shift-view/<fname>-<lname>-<start_of_shift>', methods=['GET', 'POST'])
 def shift_view(fname, lname, start_of_shift):
+    # get client ID, carer ID and roster ID for later 
+    current_client = Client.query.filter_by(id='1').first()  # TODO hardcoded - fine for demoing purpose
+    current_carer = Carer.query.filter_by(carer_fname=fname, carer_lname=lname).first()
+    start_time = datetime.combine(datetime.today(), datetime.strptime(start_of_shift, "%H%M"))
+    current_roster = Roster.query.filter_by(client_id=current_client, 
+                                            carer_id=current_carer, 
+                                            start=start_time)
+    
+    # TODO get task list (this shift & all)
+    tasks = Task.query.filter()
+    all_tasks = Task.query.filter()
+
+    # get today's time range
+    today_start = datetime.combine(date.today(), time())
+    today_end = datetime.combine(date.today()+timedelta(days=1), time())
+
+    # TODO get appointments
+    appointments = Appointment.query.filter_by(when.between,
+                                            client_id=current_client).all()
+    
+    # get the list of notes TODO
+    communications = Communication.query.filter_by(when.between(today_start, today_end),
+                                                   client_id=current_client, 
+                                                   carer_id=current_carer).all()
     
     # return f"Shift view for {fname} {lname} at {start_of_shift}"  # TODO: make HTML page for it(them)
     return render_template('client_shift.html', fname=fname, lname=lname, start_of_shift=start_of_shift)
 
-# page for notes/diary
-@app.route('/shift-view/<fname>-<lname>-<start_of_shift>/add_note')
+# page for adding new note entry
+@app.route('/shift-view/<fname>-<lname>-<start_of_shift>/add_note', methods=['POST'])
 def add_note(fname, lname, start_of_shift):
-    # get current time
-    current_time = datetime.now().strftime("%H:%M:%S")
-    current_datetime = datetime.today().strftime(("\%d-%m-%Y")) + current_time
+    if request.method == 'POST':
+        client = request.form['client_name']
+        carer = request.form['carer_name']
+        shift_start_time = request.form['shift']
+        note_entry_time = request.form['datetime']
+        note = request.form['note_content']
 
-    return render_template('add_note.html', fname=fname, lname=lname, 
+        new_note_entry = Communication()
+        try:
+            db.session.add(new_note_entry)
+            db.session.commit()
+            return redirect('/shift-view/<fname>-<lname>-<start_of_shift>')
+        except:
+            return 'There was an error creating this note entry'
+    else:
+        # get current time
+        current_time = datetime.now().strftime("%H:%M:%S")
+        current_datetime = datetime.today().strftime(("\%d-%m-%Y")) + current_time
+
+        return render_template('add_note.html', fname=fname, lname=lname, 
             start_of_shift=start_of_shift, current_datetime = current_datetime)
 
 # page for the questionnaire
@@ -142,13 +182,15 @@ def questionnaire():
 @app.route('/admin', methods=['GET'])
 def admin():
     clients = Client.query.order_by(Client.id).all()
+    carers = Carer.query.order_by(Carer.id).all()
     rosters = Roster.query.order_by(Roster.id).all()
     tasks = Task.query.order_by(Task.id).all()
     appointments = Appointment.query.order_by(Appointment.id).all()
     contacts = Contact.query.order_by(Contact.id).all()
     communications = Communication.query.order_by(Communication.id).all()
     
-    return render_template('admin.html', clients=clients, rosters=rosters, tasks=tasks, appointments=appointments, contacts=contacts, communications=communications)
+    return render_template('admin.html', clients=clients, carers=carers, 
+    rosters=rosters, tasks=tasks, appointments=appointments, contacts=contacts, communications=communications)
 
 # admin - add client
 @app.route('/admin/add-client', methods=['POST'])
@@ -168,6 +210,23 @@ def add_client():
         return redirect('/admin#client')
     except Exception as exception:
         return 'There was an issue adding the client.<br>' + str(exception)
+
+# admin - add carer
+@app.route('/admin/add-carer', methods=['POST'])
+def add_carer():
+    carer_fname = request.form['fname']
+    carer_lname = request.form['lname']
+    phone = request.form['phone']
+    
+    carer = Carer(carer_fname=carer_fname, carer_lname=carer_lname, phone=phone)
+
+    try:
+        db.session.add(carer)
+        db.session.commit()
+        return redirect('/admin#carer')
+    except Exception as exception:
+        return 'There was an issue adding the carer.<br>' + str(exception)
+
 
 # admin - add roster
 @app.route('/admin/add-roster', methods=['POST'])

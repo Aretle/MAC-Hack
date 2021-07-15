@@ -2,11 +2,57 @@
 
 {% block body%}
 
-<p>(for debugging) Current shift - {{fname}} {{lname}} at {{start_of_shift}}</p>
+<p>Current shift - {{fname}} {{lname}} at {{start_of_shift}}</p>
 
 
+<h3>Tasks for you</h3>
+<form>
+<!-- TODO if there are no tasks (unlikely but) -->
+    {% for task in tasks %}
+    <label>{{ task.description }}</label>
+    <div class="form-group">
+        <label for="essential">IS it Essential?</label> 
+        <input type="checkbox" id="essential" name="essential" value='1' class="form-control">
+    </div>
+    {{ endfor }}
 
-(todo: other columns cards)
+    <input type="submit">
+</form>
+
+<!-- do we want all tasks here?
+<h3>All tasks</h3>
+<table>
+    <tr>
+        <th>Description</th>
+        <th>Essential?</th>
+        <th>Checkbox</th>
+    </tr>
+    {% for task in all_tasks %}
+    <tr>
+        <td>{{task.description}}</td>
+        <td>{{task.essential}}</td>
+        <td>checkbox (can't edit)</td>
+    </tr>
+    {% endfor %}
+</table>
+-->
+
+<h3>Appointments</h3>
+<!-- TODO if there are no appointments -->
+<table>
+    <tr>
+        <th>Time of appointment</th>
+        <th>Who</th>
+        <th>Description</th>
+    </tr>
+    {% for appointment in appointments %}
+    <tr>
+        <td>{{appointment.when}}</td>
+        <td>{{appointment.who}}</td>
+        <td>{{appointment.description}}</td>
+    </tr>
+    {% endfor %}
+</table>
 
 <a href='{{fname}}-{{lname}}-{{start_of_shift}}/add_note' class="btn">Add new note entry</a>
 

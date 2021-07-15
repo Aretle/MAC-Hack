@@ -7,6 +7,7 @@
 {% block body %}
 <div class="content">
     <h1 style="text-align: center">Admin</h1>
+
     <!-- display tables -->
     <h4 id="client" style="text-align: center">Client Table</h4>
     <p>Entries: {{ clients|length }}</p>
@@ -60,7 +61,7 @@
                     <input type="text" name="lname" id="lname">
                 </td>
                 <td>
-                    <input type="text" name="dob" id="dob">
+                    <input type="text" name="dob" id="dob" placeholder="dd/mm/yyyy">
                 </td>
                 <td>
                     <input type="text" name="address" id="address">
@@ -73,6 +74,57 @@
                 </td>
                 <td>
                     <input type="submit" value="Add Client">
+                </td>
+            </form>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h4 id="carer" style="text-align: center">Carer Table</h4>
+    <p>Entries: {{ carers|length }}</p>
+    <table>
+        <tr>            
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone Number</th>
+        </tr>
+        {% for carer in carers %}
+            <tr>
+                <td>
+                    {{ carer.id }}
+                </td>
+                <td>
+                    {{ carer.fname }}
+                </td>
+                <td>
+                    {{ carer.lname }}
+                </td>
+                <td>
+                    {{ carer.phone }}
+                </td>
+                <td>
+                    <a href="/admin/delete-carer/{{ carer.id }}">Delete</a>
+                    <br>
+                    <a href="/admin/update-carer/{{ carer.id }}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}   
+        <tr>
+            <form action="/admin/add-carer" method="POST">
+                <td><!-- id --></td>
+                <td>
+                    <input type="text" name="fname" id="fname">
+                </td>
+                <td>
+                    <input type="text" name="lname" id="lname">
+                </td>
+                <td>
+                    <input type="text" name="phone" id="phone">
+                </td>
+                <td>
+                    <input type="submit" value="Add Carer">
                 </td>
             </form>
         </tr>
