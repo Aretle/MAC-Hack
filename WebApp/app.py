@@ -61,8 +61,8 @@ class ClientSpecialNeed(db.Model):
 
 class Carer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    carer_fname = db.Column(db.String(30), nullable=False)
-    carer_lname = db.Column(db.String(30),nullable=False)
+    fname = db.Column(db.String(30), nullable=False)
+    lname = db.Column(db.String(30),nullable=False)
     phone = db.Column(db.String(10), nullable=False)
     
     def __repr__(self):  
@@ -147,7 +147,7 @@ def client_view(fname, lname, start_of_shift):
 def shift_view(fname, lname, start_of_shift):
     # get client, carer and roster object for later 
     current_client = Client.query.filter_by(id='1').first()  # TODO hardcoded - fine for demoing purpose
-    current_carer = Carer.query.filter_by(carer_fname=fname, carer_lname=lname).first()
+    current_carer = Carer.query.filter_by(fname=fname, lname=lname).first()
     start_time = datetime.combine(datetime.today(), datetime.strptime(start_of_shift, "%H%M").time())
     current_roster = Roster.query.filter_by(client_id=current_client, 
                                             carer_id=current_carer, 
@@ -263,11 +263,11 @@ def add(table):
         entity = ClientSpecialNeed(client_id=client_id, sn_id=sn_id)
 
     elif table == 'carer':
-        carer_fname = request.form['fname']
-        carer_lname = request.form['lname']
+        fname = request.form['fname']
+        lname = request.form['lname']
         phone = request.form['phone']
     
-        entity = Carer(carer_fname=carer_fname, carer_lname=carer_lname, phone=phone)
+        entity = Carer(fname=fname, lname=lname, phone=phone)
 
     elif table == 'roster':
         carer_id = request.form['carer_id']
