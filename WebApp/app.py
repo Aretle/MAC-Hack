@@ -349,7 +349,7 @@ def delete(table, id1, id2=None):
     try:
         db.session.delete(entity)
         db.session.commit()
-        return redirect('/admin')
+        return redirect('/admin#' + table)
     except Exception as exception:
         return 'There was a problem deleting the ' + table + '.<br>' + str(exception)
 
