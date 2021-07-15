@@ -142,10 +142,10 @@ def client_view(fname, lname, start_of_shift):
 # page for shift info (after shift start)
 @app.route('/shift-view/<fname>-<lname>-<start_of_shift>', methods=['GET', 'POST'])
 def shift_view(fname, lname, start_of_shift):
-    # get client ID, carer ID and roster ID for later 
+    # get client, carer and roster object for later 
     current_client = Client.query.filter_by(id='1').first()  # TODO hardcoded - fine for demoing purpose
     current_carer = Carer.query.filter_by(carer_fname=fname, carer_lname=lname).first()
-    start_time = datetime.combine(datetime.today(), datetime.strptime(start_of_shift, "%H%M"))
+    start_time = datetime.combine(datetime.today(), datetime.strptime(start_of_shift, "%H%M").time())
     current_roster = Roster.query.filter_by(client_id=current_client, 
                                             carer_id=current_carer, 
                                             start=start_time)
