@@ -5,11 +5,15 @@
 {% endblock %}
 
 {% block body %}
-<div class="content">
+<div class="content" align="center">
     <h1 style="text-align: center">Admin</h1>
+
+    <hr>
+
     <!-- display tables -->
-    <h4 id="client" style="text-align: center">Client Table</h4>
-    <p>Entries: {{ clients|length }}</p>
+
+    <h4 id="client">Client Table</h4>
+    <p>Entries: {{ clients|length }}</p>    
     <table>
         <tr>            
             <th>ID</th>
@@ -79,8 +83,175 @@
     </table>
 
     <hr>
+    <h4 id="client_interest">Client Interest Table</h4>
+    <p>Entries: {{ client_interests|length }}</p>
+    <table>
+        <tr>            
+            <th>Client ID</th>
+            <th>Interest Number</th>
+            <th>Interest Text</th>            
+        </tr>
+        {% for client_interest in client_interests %}
+            <tr>
+                <td>
+                    {{ client_interest.client_id }}
+                </td>
+                <td>
+                    {{ client_interest.interest_num }}
+                </td>
+                <td>
+                    {{ client_interest.interest_text }}
+                </td>
+                <td>
+                    <a href="/admin/delete-client_interest/{{ client_interest.client_id }}-{{ client_interest.interest_num }}">Delete</a>
+                    <br>
+                    <a href="/admin/update-client_interest/{{ client_interest.client_id }}-{{ client_interest.interest_num }}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}   
+        <tr>
+            <form action="/admin/add-client_interest" method="POST">
+                <td>
+                    <input type="text" name="client_id" id="client_id">
+                </td>
+                <td>
+                    <input type="text" name="interest_num" id="interest_num">
+                </td>
+                <td>
+                    <input type="text" name="interest_text" id="interest_text">
+                </td>                
+                <td>
+                    <input type="submit" value="Add Client Interest">
+                </td>
+            </form>
+        </tr>
+    </table>
 
-    <h4 id="roster" style="text-align: center">Roster Table</h4>
+    <hr>
+
+    <h4 id="client_goal">Client Goal Table</h4>
+    <p>Entries: {{ client_goals|length }}</p>
+    <table>
+        <tr>            
+            <th>Client ID</th>
+            <th>Goal Number</th>
+            <th>Goal Text</th>
+        </tr>
+        {% for client_goal in client_goals %}
+            <tr>
+                <td>
+                    {{ client_goal.client_id }}
+                </td>
+                <td>
+                    {{ client_goal.goal_num }}
+                </td>
+                <td>
+                    {{ client_goal.goal_text }}
+                </td>
+                <td>
+                    <a href="/admin/delete-client_goal/{{ client_goal.client_id }}-{{ client_goal.goal_num}}">Delete</a>
+                    <br>
+                    <a href="/admin/update-client_goal/{{ client_goal.client_id }}-{{ client_goal.goal_num }}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}   
+        <tr>
+            <form action="/admin/add-client_goal" method="POST">
+                <td>
+                    <input type="text" name="client_id" id="client_id">
+                </td>
+                <td>
+                    <input type="text" name="goal_num" id="goal_num">
+                </td>
+                <td>
+                    <input type="text" name="goal_text" id="goal_text">
+                </td>                
+                <td>
+                    <input type="submit" value="Add Client Goal">
+                </td>
+            </form>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h4 id="special_need">Special Need Table</h4>
+    <p>Entries: {{ special_needs|length }}</p>
+    <table>
+        <tr>            
+            <th>ID</th>
+            <th>Special Need Name</th>            
+        </tr>
+        {% for special_need in special_needs %}
+            <tr>
+                <td>
+                    {{ special_need.id }}
+                </td>
+                <td>
+                    {{ special_need.sn_name }}
+                </td>
+                <td>
+                    <a href="/admin/delete-special_need/{{ special_need.id }}">Delete</a>
+                    <br>
+                    <a href="/admin/update-special_need/{{ special_need.id }}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}   
+        <tr>
+            <form action="/admin/add-special_need" method="POST">
+                <td><!-- id --></td>
+                <td>
+                    <input type="text" name="sn_name" id="sn_name">
+                </td>             
+                <td>
+                    <input type="submit" value="Add Special Need">
+                </td>
+            </form>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h4 id="client_special_need">Client Special Need Table</h4>
+    <p>Entries: {{ client_special_needs|length }}</p>
+    <table>
+        <tr>            
+            <th>Client ID</th>
+            <th>Special Need ID</th>            
+        </tr>
+        {% for client_special_need in client_special_needs %}
+            <tr>
+                <td>
+                    {{ client_special_need.client_id }}
+                </td>
+                <td>
+                    {{ client_special_need.sn_id }}
+                </td>
+                <td>
+                    <a href="/admin/delete-client_special_need/{{ client_special_need.client_id }}-{{ client_special_need.sn_id }}">Delete</a>
+                    <br>
+                    <a href="/admin/update-client_special_need/{{ client_special_need.client_id }}-{{ client_special_need.sn_id }}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}   
+        <tr>
+            <form action="/admin/add-client_special_need" method="POST">
+                <td>
+                    <input type="text" name="client_id" id="client_id">
+                </td>             
+                <td>
+                    <input type="text" name="sn_id" id="sn_id">
+                </td>
+                <td>
+                    <input type="submit" value="Add Special Need">
+                </td>
+            </form>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h4 id="roster">Roster Table</h4>
     <p>Entries: {{ rosters|length }}</p>
     <table>
         <tr>            
@@ -138,7 +309,7 @@
 
     <hr>
 
-    <h4 id="task" style="text-align: center">Task Table</h4>
+    <h4 id="task">Task Table</h4>
     <p>Entries: {{ tasks|length }}</p>
     <table>
         <tr>            
@@ -196,7 +367,7 @@
 
     <hr>
 
-    <h4 id="appointment" style="text-align: center">Appointment Table</h4>
+    <h4 id="appointment">Appointment Table</h4>
     <p>Entries: {{ appointments|length }}</p>
     <table>
         <tr>            
@@ -254,7 +425,7 @@
 
     <hr>
 
-    <h4 id="contact" style="text-align: center">Contact Table</h4>
+    <h4 id="contact">Contact Table</h4>
     <p>Entries: {{ contacts|length }}</p>
     <table>
         <tr>            
@@ -312,7 +483,7 @@
 
     <hr>
 
-    <h4 id="communication" style="text-align: center">Communication Table</h4>
+    <h4 id="communication">Communication Table</h4>
     <p>Entries: {{ commincations|length }}</p>
     <table>
         <tr>            
