@@ -118,18 +118,19 @@ def client_view(fname, lname, start_of_shift):
 # page for shift info (after shift start)
 @app.route('/shift-view/<fname>-<lname>-<start_of_shift>', methods=['GET', 'POST'])
 def shift_view(fname, lname, start_of_shift):
-    # get current time
-    current_time = datetime.now().strftime("%H:%M:%S")
-    current_datetime = datetime.today().strftime(("%d-%m-%Y")) + current_time
+    
     # return f"Shift view for {fname} {lname} at {start_of_shift}"  # TODO: make HTML page for it(them)
-    return render_template('client_shift.html', fname=fname, lname=lname, 
-            start_of_shift=start_of_shift, current_datetime = current_datetime)
+    return render_template('client_shift.html', fname=fname, lname=lname, start_of_shift=start_of_shift)
 
 # page for notes/diary
-@app.route('/notes')
-def notes():
-    # TODO: point to this page from the carer pages
-    return "this is notes page"
+@app.route('/shift-view/<fname>-<lname>-<start_of_shift>/add_note')
+def add_note(fname, lname, start_of_shift):
+    # get current time
+    current_time = datetime.now().strftime("%H:%M:%S")
+    current_datetime = datetime.today().strftime(("\%d-%m-%Y")) + current_time
+
+    return render_template('add_note.html', fname=fname, lname=lname, 
+            start_of_shift=start_of_shift, current_datetime = current_datetime)
 
 # page for the questionnaire
 @app.route('/questionnaire')
