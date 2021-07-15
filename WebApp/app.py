@@ -32,7 +32,6 @@ class ClientInterest(db.Model):
     interest_num = db.Column(db.Integer, primary_key=True)  # is this how to do compound pk in Flask??
     interest_text = db.Column(db.String(100), nullable=False)
 
-    # this runs every time a row is created - not using now, for reference
     def __repr__(self):  
         return "<Client Interest {} created>".format(self.id)
 
@@ -40,8 +39,7 @@ class ClientGoal(db.Model):
     client_id = db.Column(db.Integer, primary_key=True)
     goal_num = db.Column(db.Integer, primary_key=True)
     goal_text = db.Column(db.String(100), nullable=False)
-
-        # this runs every time a row is created - not using now, for reference
+        
     def __repr__(self):  
         return "<Client Goal {} created>".format(self.id)
 
@@ -50,7 +48,6 @@ class SpecialNeed(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sn_name = db.Column(db.String(30), nullable=False)
 
-    # this runs every time a row is created - not using now, for reference
     def __repr__(self):  
         return "<Special Need {} created>".format(self.id)
 
@@ -58,12 +55,18 @@ class SpecialNeed(db.Model):
 class ClientSpecialNeed(db.Model):
     client_id = db.Column(db.Integer, primary_key=True)
     sn_id = db.Column(db.Integer, primary_key=True)
+    
+    def __repr__(self):  
+        return "<Client Special Need {} created>".format(self.id)
 
 class Carer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     carer_fname = db.Column(db.String(30), nullable=False)
     carer_lname = db.Column(db.String(30),nullable=False)
     phone = db.Column(db.String(10), nullable=False)
+    
+    def __repr__(self):  
+        return "<Carer {} created>".format(self.id)
 
 class Roster(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -204,12 +207,12 @@ def questionnaire():
 # page for admin
 @app.route('/admin', methods=['GET'])
 def admin():
-    clients = Client.query.order_by(Client.id).all()
-    carers = Carer.query.order_by(Carer.id).all()
+    clients = Client.query.order_by(Client.id).all()    
     client_interests = ClientInterest.query.order_by(ClientInterest.client_id).all()
     client_goals = ClientGoal.query.order_by(ClientGoal.client_id).all()
     special_needs = SpecialNeed.query.order_by(SpecialNeed.id).all()
     client_special_needs = ClientSpecialNeed.query.order_by(ClientSpecialNeed.sn_id).all()
+    carers = Carer.query.order_by(Carer.id).all()
     rosters = Roster.query.order_by(Roster.id).all()
     tasks = Task.query.order_by(Task.id).all()
     appointments = Appointment.query.order_by(Appointment.id).all()
@@ -220,49 +223,6 @@ def admin():
             client_goals=client_goals, special_needs=special_needs, client_special_needs=client_special_needs, 
             carers=carers, rosters=rosters, tasks=tasks, appointments=appointments, contacts=contacts, 
             communications=communications)
-
-# admin - add client
-@app.route('/admin/add-client', methods=['POST'])
-def add_client():
-    fname = request.form['fname']
-    lname = request.form['lname']
-    address = request.form['address']
-    dob = str_to_date(request.form['dob'])
-    phone = request.form['phone']
-    info = request.form['info']
-
-    client =Client(fname=fname, lname=lname, address=address, dob=dob, phone=phone, info=info)
-
-    try:
-        db.session.add(client)
-        db.session.commit()
-        return redirect('/admin#client')
-    except Exception as exception:
-        return 'There was an issue adding the client.<br>' + str(exception)
-
-# admin - add carer
-@app.route('/admin/add-carer', methods=['POST'])
-def add_carer():
-    carer_fname = request.form['fname']
-    carer_lname = request.form['lname']
-    phone = request.form['phone']
-    
-    carer = Carer(carer_fname=carer_fname, carer_lname=carer_lname, phone=phone)
-
-    try:
-        db.session.add(carer)
-        db.session.commit()
-        return redirect('/admin#carer')
-    except Exception as exception:
-        return 'There was an issue adding the carer.<br>' + str(exception)
-
-# admin - add roster
-@app.route('/admin/add-roster', methods=['POST'])
-def add_roster():
-    carer_id = request.form['carer_id']
-    client_id = request.form['client_id']
-    start = str_to_date_time(request.form['start'])
-    finish = str_to_date_time(request.form['finish'])
 
 # admin - add table entity
 @app.route('/admin/add-<table>', methods=['POST'])
@@ -301,6 +261,13 @@ def add(table):
         sn_id = request.form['sn_id']
 
         entity = ClientSpecialNeed(client_id=client_id, sn_id=sn_id)
+
+    elif table == 'carer':
+        carer_fname = request.form['fname']
+        carer_lname = request.form['lname']
+        phone = request.form['phone']
+    
+        entity = Carer(carer_fname=carer_fname, carer_lname=carer_lname, phone=phone)
 
     elif table == 'roster':
         carer_id = request.form['carer_id']
@@ -366,6 +333,8 @@ def delete(table, id1, id2=None):
         entity = SpecialNeed.query.get_or_404(id1)
     elif table == 'client_special_need':
         entity = ClientSpecialNeed.query.filter_by(client_id=id1, sn_id=id2)[0]
+    elif table == 'carer':
+        entity = Carer.query.get_or_404(id1)
     elif table == 'roster':
         entity = Roster.query.get_or_404(id1)
     elif table == 'task':
