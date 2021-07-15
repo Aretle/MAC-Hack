@@ -38,12 +38,12 @@ class ClientGoal(db.Model):
     goal_text = db.Column(db.String(100), nullable=False)
 
 # the "lookup table" for all needs
-class SpecialNeeds(db.Model):
+class SpecialNeed(db.Model):
     sn_id = db.Column(db.Integer, primary_key=True)
     sn_name = db.Column(db.String(30), nullable=False)
 
 # linking table for needs
-class ClientSpecialNeeds(db.Model):
+class ClientSpecialNeed(db.Model):
     client_id = db.Column(db.Integer, primary_key=True)
     sn_id = db.Column(db.Integer, primary_key=True)
 
