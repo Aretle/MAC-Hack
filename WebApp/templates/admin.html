@@ -15,7 +15,7 @@
     <h4 id="client">Client Table</h4>
     <p>Entries: {{ clients|length }}</p>    
     <table>
-        <tr>            
+        <tr>
             <th>ID</th>
             <th>First Name</th>
             <th>Last Name</th>
@@ -86,7 +86,7 @@
     <h4 id="client_interest">Client Interest Table</h4>
     <p>Entries: {{ client_interests|length }}</p>
     <table>
-        <tr>            
+        <tr>
             <th>Client ID</th>
             <th>Interest Number</th>
             <th>Interest Text</th>            
@@ -108,7 +108,7 @@
                     <a href="/admin/update-client_interest/{{ client_interest.client_id }}-{{ client_interest.interest_num }}">Update</a>
                 </td>
             </tr>
-        {% endfor %}   
+        {% endfor %}
         <tr>
             <form action="/admin/add-client_interest" method="POST">
                 <td>
@@ -119,7 +119,7 @@
                 </td>
                 <td>
                     <input type="text" name="interest_text" id="interest_text">
-                </td>                
+                </td>
                 <td>
                     <input type="submit" value="Add Client Interest">
                 </td>
@@ -132,7 +132,7 @@
     <h4 id="client_goal">Client Goal Table</h4>
     <p>Entries: {{ client_goals|length }}</p>
     <table>
-        <tr>            
+        <tr>
             <th>Client ID</th>
             <th>Goal Number</th>
             <th>Goal Text</th>
@@ -154,7 +154,7 @@
                     <a href="/admin/update-client_goal/{{ client_goal.client_id }}-{{ client_goal.goal_num }}">Update</a>
                 </td>
             </tr>
-        {% endfor %}   
+        {% endfor %}
         <tr>
             <form action="/admin/add-client_goal" method="POST">
                 <td>
@@ -165,7 +165,7 @@
                 </td>
                 <td>
                     <input type="text" name="goal_text" id="goal_text">
-                </td>                
+                </td>
                 <td>
                     <input type="submit" value="Add Client Goal">
                 </td>
@@ -178,9 +178,9 @@
     <h4 id="special_need">Special Need Table</h4>
     <p>Entries: {{ special_needs|length }}</p>
     <table>
-        <tr>            
+        <tr>
             <th>ID</th>
-            <th>Special Need Name</th>            
+            <th>Special Need Name</th>
         </tr>
         {% for special_need in special_needs %}
             <tr>
@@ -196,7 +196,7 @@
                     <a href="/admin/update-special_need/{{ special_need.id }}">Update</a>
                 </td>
             </tr>
-        {% endfor %}   
+        {% endfor %}
         <tr>
             <form action="/admin/add-special_need" method="POST">
                 <td><!-- id --></td>
@@ -233,12 +233,12 @@
                     <a href="/admin/update-client_special_need/{{ client_special_need.client_id }}-{{ client_special_need.sn_id }}">Update</a>
                 </td>
             </tr>
-        {% endfor %}   
+        {% endfor %}
         <tr>
             <form action="/admin/add-client_special_need" method="POST">
                 <td>
                     <input type="text" name="client_id" id="client_id">
-                </td>             
+                </td>
                 <td>
                     <input type="text" name="sn_id" id="sn_id">
                 </td>
@@ -254,7 +254,7 @@
     <h4 id="carer" style="text-align: center">Carer Table</h4>
     <p>Entries: {{ carers|length }}</p>
     <table>
-        <tr>            
+        <tr>
             <th>ID</th>
             <th>First Name</th>
             <th>Last Name</th>
@@ -280,7 +280,7 @@
                     <a href="/admin/update-carer/{{ carer.id }}">Update</a>
                 </td>
             </tr>
-        {% endfor %}   
+        {% endfor %}
         <tr>
             <form action="/admin/add-carer" method="POST">
                 <td><!-- id --></td>
@@ -310,7 +310,7 @@
             <th>Carer ID</th>
             <th>Client ID</th>
             <th>Start</th>
-            <th>Finish</th>            
+            <th>Finish</th>
         </tr>
         {% for roster in rosters %}
             <tr>
@@ -328,14 +328,14 @@
                 </td>
                 <td>
                     {{ roster.finish }}
-                </td>                
+                </td>
                 <td>
                     <a href="/admin/delete-roster/{{ roster.id }}">Delete</a>
                     <br>
                     <a href="/admin/update-roster/{{ roster.id }}">Update</a>
                 </td>
             </tr>
-        {% endfor %}   
+        {% endfor %}
         <tr>
             <form action="/admin/add-roster" method="POST">
                 <td><!-- id --></td>
@@ -346,11 +346,11 @@
                     <input type="text" name="client_id" id="client_id">
                 </td>
                 <td>
-                    <input type="text" name="start" id="start">
+                    <input type="text" name="start" id="start" placeholder="dd/mm/yyyy hh:mm">
                 </td>
                 <td>
-                    <input type="text" name="finish" id="finish">
-                </td>                
+                    <input type="text" name="finish" id="finish" placeholder="dd/mm/yyyy hh:mm">
+                </td>
                 <td>
                     <input type="submit" value="Add Roster">
                 </td>
@@ -363,12 +363,12 @@
     <h4 id="task">Task Table</h4>
     <p>Entries: {{ tasks|length }}</p>
     <table>
-        <tr>            
+        <tr>
             <th>ID</th>
             <th>Roster ID</th>
             <th>Description</th>
             <th>Essential</th>
-            <th>Completed</th>            
+            <th>Completed</th>
         </tr>
         {% for task in tasks %}
             <tr>
@@ -386,14 +386,14 @@
                 </td>
                 <td>
                     {{ task.completed }}
-                </td>                
+                </td>
                 <td>
                     <a href="/admin/delete-task/{{ task.id }}">Delete</a>
                     <br>
                     <a href="/admin/update-task/{{ task.id }}">Update</a>
                 </td>
             </tr>
-        {% endfor %}   
+        {% endfor %}
         <tr>
             <form action="/admin/add-task" method="POST">
                 <td><!-- id --></td>
@@ -426,7 +426,7 @@
             <th>Client ID</th>
             <th>When</th>
             <th>Who</th>
-            <th>Description</th>            
+            <th>Description</th>
         </tr>
         {% for appointment in appointments %}
             <tr>
@@ -444,14 +444,14 @@
                 </td>
                 <td>
                     {{ appointment.description }}
-                </td>                
+                </td>
                 <td>
                     <a href="/admin/delete-appointment/{{ appointment.id }}">Delete</a>
                     <br>
                     <a href="/admin/update-appointment/{{ appointment.id }}">Update</a>
                 </td>
             </tr>
-        {% endfor %}   
+        {% endfor %}
         <tr>
             <form action="/admin/add-appointment" method="POST">
                 <td><!-- id --></td>
@@ -459,7 +459,7 @@
                     <input type="text" name="client_id" id="client_id">
                 </td>
                 <td>
-                    <input type="text" name="when" id="when">
+                    <input type="text" name="when" id="when" placeholder="dd/mm/yyyy hh:mm">
                 </td>
                 <td>
                     <input type="text" name="who" id="who">
@@ -479,12 +479,12 @@
     <h4 id="contact">Contact Table</h4>
     <p>Entries: {{ contacts|length }}</p>
     <table>
-        <tr>            
+        <tr>
             <th>ID</th>
             <th>Client ID</th>
             <th>Name</th>
             <th>Phone</th>
-            <th>Primary</th>            
+            <th>Primary</th>
         </tr>
         {% for contact in contacts %}
             <tr>
@@ -502,14 +502,14 @@
                 </td>
                 <td>
                     {{ contact.primary }}
-                </td>                
+                </td>
                 <td>
                     <a href="/admin/delete-contact/{{ contact.id }}">Delete</a>
                     <br>
                     <a href="/admin/update-contact/{{ contact.id }}">Update</a>
                 </td>
             </tr>
-        {% endfor %}   
+        {% endfor %}
         <tr>
             <form action="/admin/add-contact" method="POST">
                 <td><!-- id --></td>
@@ -537,12 +537,12 @@
     <h4 id="communication">Communication Table</h4>
     <p>Entries: {{ commincations|length }}</p>
     <table>
-        <tr>            
+        <tr>
             <th>ID</th>
             <th>Client ID</th>
             <th>Carer ID</th>
             <th>When</th>
-            <th>Message</th>            
+            <th>Message</th>
         </tr>
         {% for communication in communications %}
             <tr>
@@ -567,7 +567,7 @@
                     <a href="/admin/update-communication/{{ communication.id }}">Update</a>
                 </td>
             </tr>
-        {% endfor %}   
+        {% endfor %}
         <tr>
             <form action="/admin/add-communication" method="POST">
                 <td><!-- id --></td>
@@ -578,7 +578,7 @@
                     <input type="text" name="carer_id" id="carer_id">
                 </td>
                 <td>
-                    <input type="text" name="when" id="when">
+                    <input type="text" name="when" id="when" placeholder="dd/mm/yyyy hh:mm">
                 </td>
                 <td>
                     <input type="text" name="message" id="message">
