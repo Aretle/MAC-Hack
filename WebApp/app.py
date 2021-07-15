@@ -360,6 +360,13 @@ def create_tables():
     db.create_all()
     return redirect('/admin')
 
+# create demo data
+@app.route('/admin/create_demo_data')
+def create_demo_data():        
+    db.session.add(Client(id=101, fname='Celia', lname='Valentine', dob=datetime(1960,1,1), address='1 The Street, Melbourne 3000', info='A little bit of information about the client. What is their condition. What is their personality. How do the caregivers feel about her.'))
+    db.session.commit()
+    return redirect('/admin')
+
 # run the thing
 if __name__ == "__main__":
     db.create_all()
