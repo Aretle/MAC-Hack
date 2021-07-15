@@ -326,13 +326,13 @@ def delete(table, id1, id2=None):
     if table == 'client':    
         entity = Client.query.get_or_404(id1)
     elif table == 'client_interest':
-        entity = ClientInterest.query.filter_by(client_id=id1, interest_num=id2)[0]
+        entity = ClientInterest.query.filter_by(client_id=id1, interest_num=id2).first()
     elif table == 'client_goal':
-        entity = ClientGoal.query.filter_by(client_id=id1, goal_num=id2)[0]
+        entity = ClientGoal.query.filter_by(client_id=id1, goal_num=id2).first()
     elif table == 'special_need':
         entity = SpecialNeed.query.get_or_404(id1)
     elif table == 'client_special_need':
-        entity = ClientSpecialNeed.query.filter_by(client_id=id1, sn_id=id2)[0]
+        entity = ClientSpecialNeed.query.filter_by(client_id=id1, sn_id=id2).first()
     elif table == 'carer':
         entity = Carer.query.get_or_404(id1)
     elif table == 'roster':
