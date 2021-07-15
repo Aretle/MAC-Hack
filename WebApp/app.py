@@ -92,7 +92,7 @@ class Contact(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     client_id = db.Column(db.Integer, nullable=False)
     name = db.Column(db.String(100), nullable=False)
-    phone = db.Column(db.String(20), nullable=False)
+    phone = db.Column(db.String(10), nullable=False)
     primary = db.Column(db.Boolean, nullable=False)    
 
     def __repr__(self):  
