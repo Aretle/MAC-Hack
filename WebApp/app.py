@@ -39,7 +39,7 @@ class ClientGoal(db.Model):
 
 # the "lookup table" for all needs
 class SpecialNeed(db.Model):
-    sn_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     sn_name = db.Column(db.String(30), nullable=False)
 
 # linking table for needs
