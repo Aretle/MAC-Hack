@@ -364,6 +364,13 @@ def create_tables():
     db.create_all()
     return redirect('/admin')
 
+# delete tables
+@app.route('/admin/delete_tables')
+def drop_tables():
+    db.drop_all()  
+    create_tables()  
+    return redirect('/admin')
+
 # create demo data
 @app.route('/admin/create_demo_data')
 def create_demo_data():
