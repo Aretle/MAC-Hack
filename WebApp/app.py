@@ -367,14 +367,56 @@ def create_tables():
 # create demo data
 @app.route('/admin/create_demo_data')
 def create_demo_data():
-    celia_id = 101 
+    celia_id = 101
+    daniel_id = 101
+    lara_id = 102
+    rhiannon_id = 103
+    daniel_roster_id = 101
+
     #db.session.add(Client(id=, fname='', lname='', dob=datetime(, , ), address='', info=''))
+    #db.session.add(ClientInterest(client_id=, interest_num=, interest_text=''))
+    #db.session.add(ClientGoal(client_id=, goal_num=, goal_text=''))
     #db.session.add(Contact(id=, client_id=, name='', relation='', phone='', address='', primary=))
+    #db.session.add(Carer(id=, fname='', lname='', phone=''))
+    #db.session.add(Roster(id=, carer_id=, client_id=, start=datetime(, , ), finish=datetime(, , )))
+    #db.session.add(Task(id=, roster_id=, description='', essential=, completed=))
+    #db.session.add(Appointment(id=, client_id=, when=datetime(, , ), who='', description=''))
+    #db.session.add(Communication(id=, client_id=, carer_id=, when=datetime(, , ), message=''))
 
     db.session.add(Client(id=celia_id, fname='Celia', lname='Valentine', dob=datetime(1960, 1, 1), address='1 The Street, Melbourne 3000', info='A little bit of information about the client. What is their condition. What is their personality. How do the caregivers feel about her.'))
+    
+    db.session.add(ClientInterest(client_id=celia_id, interest_num=1, interest_text='Massive AFL Geelong supporter'))
+    db.session.add(ClientInterest(client_id=celia_id, interest_num=2, interest_text="Supports local Bendigo Spirits women's basketball team"))
+    db.session.add(ClientInterest(client_id=celia_id, interest_num=3, interest_text='Enjoys playing on her phone'))
+    
+    db.session.add(ClientGoal(client_id=celia_id, goal_num=1, goal_text='As much independence as possible'))
+    db.session.add(ClientGoal(client_id=celia_id, goal_num=2, goal_text='Improving her fitness and increasing muscle mass'))
+    db.session.add(ClientGoal(client_id=celia_id, goal_num=3, goal_text='Rehabilitiating her knees post surgery'))
+
     db.session.add(Contact(client_id=celia_id, name='Sarah Wilkinson', relation='Parent/Guardian', phone='0428236222', address='Unit 3/20 Aretle Road, Carlton North, 3054', primary=True))
     db.session.add(Contact(client_id=celia_id, name='Aldo Wilkinson', relation='Parent/Guardian', phone='0401872000', address='Unit 3/20 Aretle Road, Carlton North, 3054', primary=True))
     db.session.add(Contact(client_id=celia_id, name='Melissa Grover', relation='Sibling', phone='0428213281', address='123 Fake Street, Springfield, 9999', primary=False))
+
+    db.session.add(Carer(id=daniel_id, fname='Daniel', lname='Feltham', phone='0400000001'))
+    db.session.add(Carer(id=lara_id, fname='Lara', lname='Richards', phone='0400000002'))
+    db.session.add(Carer(id=rhiannon_id, fname='Rhiannon', lname='Burns', phone='0400000003'))
+
+    db.session.add(Roster(id=daniel_roster_id, carer_id=daniel_id, client_id=celia_id, start=datetime(2021, 7, 16, 9, 30), finish=datetime(2021, 7, 16, 13, 30)))
+    db.session.add(Roster(carer_id=lara_id, client_id=celia_id, start=datetime(2021, 7, 16, 15, 0), finish=datetime(2021, 7, 16, 20, 0)))
+    db.session.add(Roster(carer_id=rhiannon_id, client_id=celia_id, start=datetime(2021, 7, 16, 21, 0), finish=datetime(2021, 7, 17, 9, 30)))
+    
+    db.session.add(Task(roster_id=daniel_roster_id, description='Shower', essential=True, completed=False))
+    db.session.add(Task(roster_id=daniel_roster_id, description='Meal/Snack', essential=True, completed=True))
+    db.session.add(Task(roster_id=daniel_roster_id, description='Physiotherapy', essential=False, completed=False))
+    db.session.add(Task(roster_id=daniel_roster_id, description='Park Trip', essential=False, completed=False))
+
+    db.session.add(Appointment(client_id=celia_id, when=datetime(2021, 7, 28, 14, 0), who='Dentist (Dr. Yashodah)', description='Check up and x-rays'))
+    db.session.add(Appointment(client_id=celia_id, when=datetime(2021, 8, 2, 12, 0), who='GP (Dr. Reshma)', description='Bloot test'))
+    db.session.add(Appointment(client_id=celia_id, when=datetime(2021, 8, 2, 14, 0), who='Physiotherapist (Dr. Yong)', description='Reassessment'))
+
+    db.session.add(Communication(client_id=celia_id, carer_id=rhiannon_id, when=datetime(2021, 7, 18, 17, 15), message='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed'))
+    db.session.add(Communication(client_id=celia_id, carer_id=lara_id, when=datetime(2021, 7, 19, 10, 30), message='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed'))
+    db.session.add(Communication(client_id=celia_id, carer_id=daniel_id, when=datetime(2021, 7, 19, 12, 30), message='Celie was feeling under the weather experiencing runny nose and slight cough.'))
 
     db.session.commit()
     return redirect('/admin')
